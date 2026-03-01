@@ -11,7 +11,6 @@
   <link rel="manifest" href="/manifest.json" />
 
   <style>
-    /* ── Reset & Base ─────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -20,7 +19,6 @@
       --surface2:   #1a1a28;
       --border:     #2a2a40;
       --purple:     #7c3aed;
-      --purple-dim: #4c1d95;
       --red:        #ef4444;
       --green:      #22c55e;
       --yellow:     #f59e0b;
@@ -41,7 +39,6 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* ── Layout ────────────────────────────────────────────────── */
     #app {
       display: flex;
       flex-direction: column;
@@ -49,7 +46,7 @@
       padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0);
     }
 
-    /* ── Header ────────────────────────────────────────────────── */
+    /* Header */
     header {
       display: flex;
       align-items: center;
@@ -63,7 +60,6 @@
       gap: 8px;
       font-size: 18px;
       font-weight: 700;
-      letter-spacing: -0.3px;
     }
 
     .logo-dot {
@@ -94,10 +90,10 @@
       transition: all .3s;
     }
 
-    .conn-badge.connected  { color: var(--green);  border-color: var(--green);  background: rgba(34,197,94,.1); }
-    .conn-badge.error      { color: var(--red);    border-color: var(--red);    background: rgba(239,68,68,.1); }
+    .conn-badge.connected { color: var(--green); border-color: var(--green); background: rgba(34,197,94,.1); }
+    .conn-badge.error     { color: var(--red);   border-color: var(--red);   background: rgba(239,68,68,.1); }
 
-    /* ── Camera Preview ─────────────────────────────────────────── */
+    /* Camera */
     .camera-wrap {
       position: relative;
       width: 100%;
@@ -111,15 +107,13 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: scaleX(-1); /* Mirror for selfie feel */
+      transform: scaleX(-1);
       display: block;
     }
 
-    /* Live timer overlay */
     .live-overlay {
       position: absolute;
-      top: 12px;
-      left: 12px;
+      top: 12px; left: 12px;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -134,19 +128,12 @@
     }
 
     .live-overlay.visible { opacity: 1; }
-
-    .live-label {
-      color: var(--red);
-      letter-spacing: 1px;
-    }
-
+    .live-label { color: var(--red); letter-spacing: 1px; }
     #timer { color: white; font-variant-numeric: tabular-nums; }
 
-    /* Camera controls overlay */
     .cam-controls {
       position: absolute;
-      bottom: 10px;
-      right: 10px;
+      bottom: 10px; right: 10px;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -170,7 +157,6 @@
     .cam-btn:active { transform: scale(0.9); }
     .cam-btn.muted  { background: rgba(239,68,68,0.8); }
 
-    /* Placeholder when camera is off */
     .cam-placeholder {
       width: 100%;
       height: 100%;
@@ -185,7 +171,28 @@
 
     .cam-placeholder .icon { font-size: 36px; }
 
-    /* ── Main Content ───────────────────────────────────────────── */
+    .enable-cam-btn {
+      background: var(--purple);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 24px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    #camError {
+      color: var(--red);
+      font-size: 12px;
+      margin-top: 8px;
+      text-align: center;
+      padding: 0 16px;
+      max-width: 280px;
+    }
+
+    /* Content */
     .content {
       flex: 1;
       overflow-y: auto;
@@ -195,7 +202,7 @@
       gap: 12px;
     }
 
-    /* ── Platform Cards ─────────────────────────────────────────── */
+    /* Platform cards */
     .platform-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -227,7 +234,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 13px;
       font-weight: 900;
       color: white;
       flex-shrink: 0;
@@ -237,28 +244,15 @@
     .platform-icon.youtube  { background: var(--youtube); }
     .platform-icon.facebook { background: var(--facebook); }
 
-    .platform-name {
-      font-size: 15px;
-      font-weight: 600;
-    }
+    .platform-name { font-size: 15px; font-weight: 600; }
 
-    .platform-status {
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 1px;
-    }
-
+    .platform-status { font-size: 11px; color: var(--muted); margin-top: 1px; }
     .platform-status.live   { color: var(--green); }
     .platform-status.error  { color: var(--red); }
+    .platform-status.killed { color: var(--yellow); }
 
-    /* Toggle switch */
-    .toggle {
-      position: relative;
-      width: 44px;
-      height: 26px;
-      flex-shrink: 0;
-    }
-
+    /* Toggle */
+    .toggle { position: relative; width: 44px; height: 26px; flex-shrink: 0; }
     .toggle input { opacity: 0; width: 0; height: 0; }
 
     .toggle-slider {
@@ -283,7 +277,7 @@
     .toggle input:checked + .toggle-slider { background: var(--purple); }
     .toggle input:checked + .toggle-slider::before { transform: translateX(18px); }
 
-    /* Key input area */
+    /* Platform body */
     .platform-body {
       display: none;
       padding: 0 14px 14px;
@@ -293,11 +287,7 @@
 
     .platform-body.open { display: flex; }
 
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
+    .input-group { display: flex; flex-direction: column; gap: 4px; }
 
     .input-label {
       font-size: 11px;
@@ -307,10 +297,7 @@
       letter-spacing: 0.5px;
     }
 
-    .input-row {
-      display: flex;
-      gap: 6px;
-    }
+    .input-row { display: flex; gap: 6px; }
 
     .key-input {
       flex: 1;
@@ -338,15 +325,35 @@
       font-size: 16px;
       cursor: pointer;
       flex-shrink: 0;
-      transition: color .2s;
     }
 
-    .reveal-btn:active { color: var(--text); }
-
-    /* ── Go Live Button ──────────────────────────────────────────── */
-    .go-live-wrap {
-      padding: 0 0 4px;
+    /* Kill switch row */
+    .kill-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0 0;
     }
+
+    .kill-label { font-size: 12px; color: var(--muted); }
+
+    .kill-btn {
+      font-size: 11px;
+      padding: 5px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 600;
+      display: none;
+    }
+
+    .kill-btn.visible { display: block; }
+    .kill-btn.killing { border-color: var(--red); color: var(--red); }
+
+    /* Go Live button */
+    .go-live-wrap { padding: 0 0 4px; }
 
     #goLiveBtn {
       width: 100%;
@@ -356,7 +363,6 @@
       border: none;
       border-radius: var(--radius);
       cursor: pointer;
-      letter-spacing: 0.3px;
       transition: all .2s;
       background: linear-gradient(135deg, #7c3aed, #4f46e5);
       color: white;
@@ -376,7 +382,7 @@
       box-shadow: 0 4px 20px rgba(239,68,68,0.4);
     }
 
-    /* ── Status Panel ────────────────────────────────────────────── */
+    /* Status panel */
     #statusPanel {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -399,11 +405,7 @@
     .status-label { color: var(--muted); }
     .status-value { font-weight: 600; font-variant-numeric: tabular-nums; }
 
-    .platform-badges {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
+    .platform-badges { display: flex; gap: 6px; flex-wrap: wrap; }
 
     .platform-badge {
       font-size: 11px;
@@ -416,8 +418,8 @@
     .platform-badge.tiktok   { background: var(--tiktok); }
     .platform-badge.youtube  { background: var(--youtube); }
     .platform-badge.facebook { background: var(--facebook); }
+    .platform-badge.dropped  { background: var(--muted); text-decoration: line-through; }
 
-    /* ── Stats ───────────────────────────────────────────────────── */
     #statsText {
       font-size: 11px;
       color: var(--muted);
@@ -425,7 +427,40 @@
       word-break: break-all;
     }
 
-    /* ── Toast Notifications ─────────────────────────────────────── */
+    /* Speed test bar */
+    #speedBar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    #speedBar.visible { display: flex; }
+
+    .speed-label { font-size: 12px; color: var(--muted); font-weight: 600; }
+
+    .speed-track {
+      width: 100%;
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .speed-fill {
+      height: 100%;
+      border-radius: 3px;
+      width: 0%;
+      transition: width .4s, background .4s;
+      background: var(--green);
+    }
+
+    .speed-result { font-size: 12px; color: var(--text); font-weight: 600; }
+
+    /* Toast */
     #toast {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 16px) + 16px);
@@ -447,15 +482,11 @@
       text-align: center;
     }
 
-    #toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
+    #toast.show    { opacity: 1; transform: translateX(-50%) translateY(0); }
     #toast.success { border-color: var(--green); color: var(--green); }
     #toast.error   { border-color: var(--red);   color: var(--red);   }
+    #toast.warn    { border-color: var(--yellow); color: var(--yellow); }
 
-    /* ── Spinner ─────────────────────────────────────────────────── */
     .spinner {
       display: inline-block;
       width: 14px; height: 14px;
@@ -469,7 +500,6 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── Section label ───────────────────────────────────────────── */
     .section-label {
       font-size: 11px;
       font-weight: 700;
@@ -483,7 +513,6 @@
 <body>
 <div id="app">
 
-  <!-- Header -->
   <header>
     <div class="logo">
       <div class="logo-dot" id="logoDot"></div>
@@ -492,12 +521,12 @@
     <div class="conn-badge" id="connBadge">Connecting…</div>
   </header>
 
-  <!-- Camera -->
+  <!-- Camera area -->
   <div class="camera-wrap" id="cameraWrap">
     <div class="cam-placeholder" id="camPlaceholder">
       <div class="icon">📷</div>
-      <button onclick="startCamera()" style="background:#7c3aed;color:white;border:none;padding:12px 28px;border-radius:24px;font-size:16px;font-weight:700;cursor:pointer;margin-top:8px;">Enable Camera</button>
-      <div id="camError" style="color:#ef4444;font-size:12px;margin-top:8px;text-align:center;padding:0 16px;"></div>
+      <button class="enable-cam-btn" id="enableCamBtn">Enable Camera</button>
+      <div id="camError"></div>
     </div>
     <video id="preview" autoplay muted playsinline style="display:none"></video>
 
@@ -508,15 +537,20 @@
 
     <div class="cam-controls" id="camControls" style="display:none">
       <button class="cam-btn" id="flipBtn"  title="Flip camera">🔄</button>
-      <button class="cam-btn" id="muteBtn"   title="Mute mic">🎙️</button>
-      <button class="cam-btn" id="ghostBtn"  title="Freeze video">🧊</button>
+      <button class="cam-btn" id="muteBtn"  title="Mute mic">🎙️</button>
+      <button class="cam-btn" id="ghostBtn" title="Freeze video">🧊</button>
     </div>
   </div>
 
-  <!-- Scrollable content -->
   <div class="content">
 
-    <!-- Platforms -->
+    <!-- Speed test bar -->
+    <div id="speedBar">
+      <div class="speed-label">Testing connection…</div>
+      <div class="speed-track"><div class="speed-fill" id="speedFill"></div></div>
+      <div class="speed-result" id="speedResult"></div>
+    </div>
+
     <div class="section-label">Streaming Platforms</div>
 
     <!-- TikTok -->
@@ -550,6 +584,10 @@
               oninput="saveKeys()" />
             <button class="reveal-btn" onclick="toggleReveal('key-tiktok', this)">👁</button>
           </div>
+        </div>
+        <div class="kill-row">
+          <span class="kill-label">Platform kill switch</span>
+          <button class="kill-btn" id="kill-tiktok" onclick="killPlatform('tiktok')">Stop TikTok</button>
         </div>
       </div>
     </div>
@@ -586,6 +624,10 @@
             <button class="reveal-btn" onclick="toggleReveal('key-youtube', this)">👁</button>
           </div>
         </div>
+        <div class="kill-row">
+          <span class="kill-label">Platform kill switch</span>
+          <button class="kill-btn" id="kill-youtube" onclick="killPlatform('youtube')">Stop YouTube</button>
+        </div>
       </div>
     </div>
 
@@ -621,17 +663,19 @@
             <button class="reveal-btn" onclick="toggleReveal('key-facebook', this)">👁</button>
           </div>
         </div>
+        <div class="kill-row">
+          <span class="kill-label">Platform kill switch</span>
+          <button class="kill-btn" id="kill-facebook" onclick="killPlatform('facebook')">Stop Facebook</button>
+        </div>
       </div>
     </div>
 
-    <!-- Go Live -->
+    <!-- Go Live button -->
     <div class="go-live-wrap">
-      <button id="goLiveBtn" onclick="handleGoLive()" disabled>
-        Start Camera First
-      </button>
+      <button id="goLiveBtn" onclick="handleGoLive()" disabled>Start Camera First</button>
     </div>
 
-    <!-- Status Panel -->
+    <!-- Status panel -->
     <div id="statusPanel">
       <div class="status-row">
         <span class="status-label">Streaming to</span>
@@ -644,33 +688,29 @@
       <div id="statsText"></div>
     </div>
 
-  </div><!-- /content -->
+  </div>
+</div>
 
-</div><!-- /app -->
-
-<!-- Toast -->
 <div id="toast"></div>
 
 <script>
 'use strict';
 
-// ── Constants ────────────────────────────────────────────────────────────────
+const PLATFORMS    = ['tiktok', 'youtube', 'facebook'];
+const STORAGE_KEY  = 'sf_keys_v2';
 
-const PLATFORMS = ['tiktok', 'youtube', 'facebook'];
-const STORAGE_KEY = 'sf_keys_v1';
-
-// ── State ────────────────────────────────────────────────────────────────────
-
-let ws            = null;
-let mediaStream   = null;
-let recorder      = null;
-let isLive        = false;
-let isMuted       = false;
-let facingMode    = 'user';       // 'user' (front) or 'environment' (back)
-let timerInterval = null;
-let timerSeconds  = 0;
+let ws               = null;
+let mediaStream      = null;
+let recorder         = null;
+let isLive           = false;
+let isMuted          = false;
+let isGhost          = false;
+let facingMode       = 'user';
+let timerInterval    = null;
+let timerSeconds     = 0;
 let wsReconnectTimer = null;
 let reconnectAttempts = 0;
+let killedPlatforms  = new Set();   // platforms manually stopped mid-stream
 const MAX_RECONNECTS = 5;
 
 // ── WebSocket ────────────────────────────────────────────────────────────────
@@ -682,39 +722,523 @@ function wsUrl() {
 
 function connectWs() {
   if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) return;
-
   ws = new WebSocket(wsUrl());
 
   ws.onopen = () => {
-    console.log('[WS] Connected');
     reconnectAttempts = 0;
     setBadge('connected', 'Connected');
     ws.send(JSON.stringify({ type: 'status' }));
   };
 
-  ws.onmessage = (event) => {
+  ws.onmessage = (e) => {
     let msg;
-    try { msg = JSON.parse(event.data); } catch { return; }
-
+    try { msg = JSON.parse(e.data); } catch { return; }
     switch (msg.type) {
-      case 'started':
-        onStreamStarted(msg);
-        break;
-      case 'stopped':
-        onStreamStopped(msg);
-        break;
-      case 'error':
-        onStreamError(msg);
-        break;
-      case 'stats':
-        updateStats(msg.raw);
-        break;
+      case 'started': onStreamStarted(msg); break;
+      case 'stopped': onStreamStopped(msg); break;
+      case 'error':   onStreamError(msg);   break;
+      case 'stats':   updateStats(msg.raw); break;
       case 'status':
-        // Server told us current state on connect
-        if (msg.streaming) toast('A stream is already active on the server.', 'error');
+        if (msg.streaming) toast('A stream is already active.', 'warn');
         break;
     }
   };
 
   ws.onclose = () => {
-    c
+    setBadge('error', 'Disconnected');
+    if (isLive) onStreamStopped({ code: -1, message: 'Connection lost.' });
+    scheduleReconnect();
+  };
+
+  ws.onerror = () => setBadge('error', 'Error');
+}
+
+function scheduleReconnect() {
+  if (reconnectAttempts >= MAX_RECONNECTS) {
+    setBadge('error', 'Offline');
+    toast('Cannot reach server. Reload to retry.', 'error');
+    return;
+  }
+  const delay = Math.min(2000 * Math.pow(2, reconnectAttempts), 30000);
+  reconnectAttempts++;
+  clearTimeout(wsReconnectTimer);
+  wsReconnectTimer = setTimeout(connectWs, delay);
+}
+
+function wsSend(obj) {
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify(obj));
+    return true;
+  }
+  toast('Not connected to server.', 'error');
+  return false;
+}
+
+// ── Camera ───────────────────────────────────────────────────────────────────
+
+async function startCamera() {
+  const errEl = document.getElementById('camError');
+  errEl.textContent = '';
+
+  try {
+    if (mediaStream) mediaStream.getTracks().forEach(t => t.stop());
+
+    mediaStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode, width: { ideal: 1280 }, height: { ideal: 720 }, frameRate: { ideal: 30 } },
+      audio: { echoCancellation: true, noiseSuppression: true, sampleRate: 44100 }
+    });
+
+    const preview = document.getElementById('preview');
+    preview.srcObject = mediaStream;
+    preview.style.display = 'block';
+    preview.style.transform = facingMode === 'user' ? 'scaleX(-1)' : 'none';
+    document.getElementById('camPlaceholder').style.display = 'none';
+    document.getElementById('camControls').style.display    = 'flex';
+
+    updateGoLiveButton();
+    toast('Camera ready', 'success');
+
+  } catch (err) {
+    console.error('[Camera]', err);
+    let msg;
+    if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+      msg = 'Permission denied. Tap the lock icon in your address bar and allow Camera & Microphone, then try again.';
+    } else if (err.name === 'NotFoundError') {
+      msg = 'No camera found on this device.';
+    } else if (err.name === 'NotReadableError') {
+      msg = 'Camera is in use by another app. Close other camera apps and try again.';
+    } else {
+      msg = 'Camera error: ' + err.message;
+    }
+    errEl.textContent = msg;
+    toast('Camera error — see below', 'error');
+  }
+}
+
+document.getElementById('enableCamBtn').addEventListener('click', startCamera);
+
+document.getElementById('flipBtn').addEventListener('click', async (e) => {
+  e.stopPropagation();
+  facingMode = facingMode === 'user' ? 'environment' : 'user';
+  if (mediaStream) await startCamera();
+});
+
+document.getElementById('muteBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (!mediaStream) return;
+  isMuted = !isMuted;
+  mediaStream.getAudioTracks().forEach(t => t.enabled = !isMuted);
+  const btn = document.getElementById('muteBtn');
+  btn.textContent = isMuted ? '🔇' : '🎙️';
+  btn.classList.toggle('muted', isMuted);
+  toast(isMuted ? 'Mic muted' : 'Mic on');
+});
+
+document.getElementById('ghostBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (!mediaStream) return;
+  isGhost = !isGhost;
+  mediaStream.getVideoTracks().forEach(t => t.enabled = !isGhost);
+  const btn = document.getElementById('ghostBtn');
+  btn.textContent = isGhost ? '▶️' : '🧊';
+  btn.classList.toggle('muted', isGhost);
+  toast(isGhost ? 'Video frozen — viewers see a still frame' : 'Video resumed');
+});
+
+// ── MediaRecorder ────────────────────────────────────────────────────────────
+
+function getSupportedMimeType() {
+  const types = [
+    'video/webm;codecs=h264,opus',
+    'video/webm;codecs=vp8,opus',
+    'video/webm;codecs=vp9,opus',
+    'video/webm',
+  ];
+  return types.find(t => MediaRecorder.isTypeSupported(t)) || 'video/webm';
+}
+
+function startRecorder() {
+  if (!mediaStream) return;
+  const mimeType = getSupportedMimeType();
+
+  recorder = new MediaRecorder(mediaStream, {
+    mimeType,
+    videoBitsPerSecond: 2_500_000,
+    audioBitsPerSecond:   128_000,
+  });
+
+  recorder.ondataavailable = (e) => {
+    if (e.data && e.data.size > 0 && ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(e.data);
+    }
+  };
+
+  recorder.onerror = () => {
+    toast('Recorder error. Stream may have stopped.', 'error');
+    stopEverything();
+  };
+
+  recorder.start(500);
+}
+
+function stopRecorder() {
+  if (recorder && recorder.state !== 'inactive') recorder.stop();
+  recorder = null;
+}
+
+// ── Pre-Stream Speed Test ─────────────────────────────────────────────────────
+
+async function runSpeedTest() {
+  const bar    = document.getElementById('speedBar');
+  const fill   = document.getElementById('speedFill');
+  const result = document.getElementById('speedResult');
+
+  bar.classList.add('visible');
+  fill.style.width = '0%';
+  fill.style.background = 'var(--purple)';
+  result.textContent = 'Testing…';
+
+  // Animate fill while testing
+  let progress = 0;
+  const anim = setInterval(() => {
+    progress = Math.min(progress + 8, 85);
+    fill.style.width = progress + '%';
+  }, 120);
+
+  try {
+    const start = Date.now();
+    const resp  = await fetch('/health?t=' + Date.now());
+    await resp.json();
+    const latency = Date.now() - start;
+
+    clearInterval(anim);
+    fill.style.width = '100%';
+
+    if (latency < 400) {
+      fill.style.background = 'var(--green)';
+      result.textContent    = '✅ Connection excellent (' + latency + 'ms)';
+      toast('Connection excellent', 'success');
+      await pause(800);
+      bar.classList.remove('visible');
+      return true;
+    } else if (latency < 1500) {
+      fill.style.background = 'var(--yellow)';
+      result.textContent    = '⚠️ Slow connection (' + latency + 'ms) — stream may be unstable';
+      toast('Slow connection — stream may be unstable', 'warn');
+      await pause(2500);
+      bar.classList.remove('visible');
+      return true; // still allow them to try
+    } else {
+      fill.style.background = 'var(--red)';
+      result.textContent    = '❌ Very slow (' + latency + 'ms) — going live may fail';
+      toast('Very slow connection', 'error');
+      await pause(3000);
+      bar.classList.remove('visible');
+      return false;
+    }
+
+  } catch (err) {
+    clearInterval(anim);
+    fill.style.background = 'var(--red)';
+    fill.style.width      = '100%';
+    result.textContent    = '❌ Cannot reach server';
+    toast('Cannot reach server. Check your internet.', 'error');
+    await pause(2000);
+    bar.classList.remove('visible');
+    return false;
+  }
+}
+
+function pause(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ── Go Live ───────────────────────────────────────────────────────────────────
+
+function handleGoLive() {
+  if (isLive) { stopStream(); } else { goLive(); }
+}
+
+async function goLive() {
+  if (!mediaStream) { toast('Enable your camera first.', 'error'); return; }
+
+  const destinations = PLATFORMS
+    .filter(p => document.getElementById('toggle-' + p).checked)
+    .map(p => ({
+      name: p.charAt(0).toUpperCase() + p.slice(1),
+      url:  document.getElementById('url-' + p).value.trim(),
+      key:  document.getElementById('key-' + p).value.trim(),
+    }))
+    .filter(d => d.url && d.key);
+
+  if (destinations.length === 0) {
+    toast('Enable at least one platform and add its stream key.', 'error');
+    return;
+  }
+
+  // Disable button during test
+  const btn = document.getElementById('goLiveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Testing connection…';
+
+  const ok = await runSpeedTest();
+  if (!ok) { updateGoLiveButton(); return; }
+
+  btn.innerHTML = '<span class="spinner"></span>Going Live…';
+
+  if (!wsSend({ type: 'start', destinations })) {
+    updateGoLiveButton();
+    return;
+  }
+
+  killedPlatforms.clear();
+  startRecorder();
+}
+
+function stopStream() {
+  wsSend({ type: 'stop' });
+  stopRecorder();
+}
+
+// ── Per-Platform Kill Switch ──────────────────────────────────────────────────
+
+function killPlatform(platform) {
+  if (!isLive) return;
+  killedPlatforms.add(platform);
+
+  setPlatformStatus(platform, 'killed');
+  document.getElementById('card-' + platform).classList.remove('active-platform');
+
+  const killBtn = document.getElementById('kill-' + platform);
+  killBtn.classList.remove('visible');
+
+  // Update the live badges
+  const badge = document.querySelector('.platform-badge.' + platform);
+  if (badge) badge.classList.add('dropped');
+
+  // Tell server to drop this destination
+  wsSend({ type: 'kill', platform });
+
+  toast(platform.charAt(0).toUpperCase() + platform.slice(1) + ' stream stopped', 'warn');
+
+  // If all platforms are killed, stop everything
+  const activePlatforms = PLATFORMS.filter(p =>
+    document.getElementById('toggle-' + p).checked && !killedPlatforms.has(p)
+  );
+  if (activePlatforms.length === 0) {
+    toast('All platforms stopped. Ending stream.', 'warn');
+    stopStream();
+  }
+}
+
+function stopEverything() {
+  stopRecorder();
+  clearInterval(timerInterval);
+  isLive        = false;
+  timerSeconds  = 0;
+  killedPlatforms.clear();
+
+  document.getElementById('liveOverlay').classList.remove('visible');
+  document.getElementById('logoDot').classList.remove('pulsing');
+  document.getElementById('statusPanel').classList.remove('visible');
+  document.getElementById('speedBar').classList.remove('visible');
+
+  PLATFORMS.forEach(p => {
+    setPlatformStatus(p, document.getElementById('toggle-' + p).checked ? 'ready' : 'off');
+    document.getElementById('card-' + p).classList.remove('active-platform');
+    document.getElementById('kill-' + p).classList.remove('visible', 'killing');
+  });
+
+  updateGoLiveButton();
+}
+
+// ── Stream Event Handlers ─────────────────────────────────────────────────────
+
+function onStreamStarted(msg) {
+  isLive       = true;
+  timerSeconds = 0;
+
+  const platformsLive = (msg.platforms || []).map(n => n.toLowerCase());
+
+  platformsLive.forEach(p => {
+    setPlatformStatus(p, 'live');
+    document.getElementById('card-' + p).classList.add('active-platform');
+    const kb = document.getElementById('kill-' + p);
+    kb.classList.add('visible', 'killing');
+  });
+
+  document.getElementById('liveOverlay').classList.add('visible');
+  document.getElementById('logoDot').classList.add('pulsing');
+
+  const panel = document.getElementById('statusPanel');
+  panel.classList.add('visible');
+
+  document.getElementById('liveBadges').innerHTML = platformsLive.map(p =>
+    `<span class="platform-badge ${p}">${p.charAt(0).toUpperCase() + p.slice(1)}</span>`
+  ).join('');
+
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timerSeconds++;
+    const t = formatTime(timerSeconds);
+    document.getElementById('timer').textContent      = t;
+    document.getElementById('statusTimer').textContent = t;
+  }, 1000);
+
+  const btn = document.getElementById('goLiveBtn');
+  btn.disabled    = false;
+  btn.textContent = '⏹ Stop Stream';
+  btn.classList.add('live');
+
+  toast(msg.message || 'You are LIVE!', 'success');
+}
+
+function onStreamStopped(msg) {
+  stopEverything();
+  toast(msg.message || 'Stream ended.', msg.code !== 0 ? 'error' : '');
+}
+
+function onStreamError(msg) {
+  stopEverything();
+  toast(msg.message || 'Stream error.', 'error');
+}
+
+function updateStats(raw) {
+  document.getElementById('statsText').textContent = raw;
+}
+
+// ── Platform UI ───────────────────────────────────────────────────────────────
+
+function onToggle(platform, checked) {
+  const body = document.getElementById('body-' + platform);
+  if (checked) {
+    body.classList.add('open');
+    setPlatformStatus(platform, 'ready');
+  } else {
+    body.classList.remove('open');
+    setPlatformStatus(platform, 'off');
+  }
+  updateGoLiveButton();
+}
+
+function toggleCard(platform) {
+  const isOn = document.getElementById('toggle-' + platform).checked;
+  if (!isOn) return;
+  document.getElementById('body-' + platform).classList.toggle('open');
+}
+
+function setPlatformStatus(platform, state) {
+  const el = document.getElementById('status-' + platform);
+  el.className = 'platform-status';
+  if (state === 'live')   { el.classList.add('live');   el.textContent = '● LIVE'; }
+  if (state === 'error')  { el.classList.add('error');  el.textContent = '✕ Error'; }
+  if (state === 'killed') { el.classList.add('killed'); el.textContent = '⏹ Stopped'; }
+  if (state === 'ready')  { el.textContent = 'Ready'; }
+  if (state === 'off')    { el.textContent = 'Off'; }
+}
+
+function toggleReveal(inputId, btn) {
+  const input = document.getElementById(inputId);
+  input.type  = input.type === 'password' ? 'text' : 'password';
+  btn.textContent = input.type === 'password' ? '👁' : '🙈';
+}
+
+function updateGoLiveButton() {
+  const btn = document.getElementById('goLiveBtn');
+  if (isLive) return;
+
+  const hasCamera = !!mediaStream;
+  const hasActivePlatform = PLATFORMS.some(p =>
+    document.getElementById('toggle-' + p).checked &&
+    document.getElementById('key-' + p).value.trim()
+  );
+
+  if (!hasCamera) {
+    btn.disabled    = true;
+    btn.textContent = 'Start Camera First';
+    btn.classList.remove('live');
+  } else if (!hasActivePlatform) {
+    btn.disabled    = true;
+    btn.textContent = 'Enable a Platform';
+    btn.classList.remove('live');
+  } else {
+    btn.disabled    = false;
+    btn.textContent = '🔴 Go Live';
+    btn.classList.remove('live');
+  }
+}
+
+// ── Key Persistence ───────────────────────────────────────────────────────────
+
+function saveKeys() {
+  const data = {};
+  PLATFORMS.forEach(p => {
+    data[p] = {
+      url: document.getElementById('url-' + p).value,
+      key: document.getElementById('key-' + p).value,
+      on:  document.getElementById('toggle-' + p).checked,
+    };
+  });
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (_) {}
+  updateGoLiveButton();
+}
+
+function loadKeys() {
+  try {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    PLATFORMS.forEach(p => {
+      if (!data[p]) return;
+      if (data[p].url) document.getElementById('url-' + p).value = data[p].url;
+      if (data[p].key) document.getElementById('key-' + p).value = data[p].key;
+      if (data[p].on) {
+        document.getElementById('toggle-' + p).checked = true;
+        document.getElementById('body-' + p).classList.add('open');
+        setPlatformStatus(p, 'ready');
+      }
+    });
+  } catch (_) {}
+}
+
+PLATFORMS.forEach(p => {
+  document.getElementById('key-' + p).addEventListener('input', saveKeys);
+  document.getElementById('url-' + p).addEventListener('input', saveKeys);
+});
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function formatTime(seconds) {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  return h > 0 ? `${pad(h)}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+}
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function setBadge(state, text) {
+  const b = document.getElementById('connBadge');
+  b.className  = 'conn-badge ' + state;
+  b.textContent = text;
+}
+
+let toastTimer;
+function toast(message, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = message;
+  el.className   = 'show' + (type ? ' ' + type : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.className = ''; }, 3500);
+}
+
+// ── Service Worker ────────────────────────────────────────────────────────────
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(() => {});
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+
+loadKeys();
+connectWs();
+updateGoLiveButton();
+</script>
+</body>
+</html>
