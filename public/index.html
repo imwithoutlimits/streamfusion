@@ -494,9 +494,10 @@
 
   <!-- Camera -->
   <div class="camera-wrap" id="cameraWrap">
-    <div class="cam-placeholder" id="camPlaceholder" onclick="startCamera()">
+    <div class="cam-placeholder" id="camPlaceholder">
       <div class="icon">📷</div>
-      <div>Tap to enable camera</div>
+      <button onclick="startCamera()" style="background:#7c3aed;color:white;border:none;padding:12px 28px;border-radius:24px;font-size:16px;font-weight:700;cursor:pointer;margin-top:8px;">Enable Camera</button>
+      <div id="camError" style="color:#ef4444;font-size:12px;margin-top:8px;text-align:center;padding:0 16px;"></div>
     </div>
     <video id="preview" autoplay muted playsinline style="display:none"></video>
 
