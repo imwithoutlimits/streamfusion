@@ -79,9 +79,9 @@ function buildFFmpegArgs(destinations) {
     '-c:v',           'libx264',
     '-preset',        'veryfast',         // Fastest encode — acceptable quality for live
     '-tune',          'zerolatency',      // Minimize encoder latency
-    '-b:v',           '2500k',            // 2.5 Mbps video bitrate
-    '-maxrate',       '2500k',
-    '-bufsize',       '5000k',
+    '-b:v',           '1000k',            // 2.5 Mbps video bitrate
+    '-maxrate',       '1000k',
+    '-bufsize',       '2000k',
     '-pix_fmt',       'yuv420p',          // Required by TikTok and most platforms
     '-g',             '60',              // Keyframe every 60 frames (2s at 30fps)
     '-keyint_min',    '60',
